@@ -1,0 +1,72 @@
+<form class="" (submit)="ActivateAccount(frmRegister.value)" #frmRegister="ngForm">
+    <h2> Unlock User</h2>
+    <div class="mb-3">
+        <label class="form-label" for="UserName">Email</label>
+        <div>
+            <span class="text-success">Your Email is : {{Email}}</span>
+            <div class="container-fluid">
+                <div *ngIf="isemailexist; then thenBlock else elseBlock"></div>
+                <ng-template #thenBlock>
+                    <span class="text-success">Your Entered {{emailExistStatus}}</span>
+                </ng-template>
+                <ng-template #elseBlock>
+                    <span class="text-danger">{{emailExistStatus}}</span>
+                </ng-template>
+            </div>
+        </div>
+        
+    </div>
+    <div class="mb-3">
+        <label class="form-label" for="Password">Temporary Password</label>
+        <div>
+            <input type="password" placeholder="Enter Temporary password" ngModel required minlength="6" #tmpPassword="ngModel" class="form-control" name="tmpPassword">
+        </div>
+        <dd class="text-danger" *ngIf="(tmpPassword.invalid && frmRegister.submitted)||(tmpPassword.touched && tmpPassword.invalid)">
+            <span *ngIf="tmpPassword.errors?.['required']">Temporary Password Required</span>
+            <span *ngIf="tmpPassword.errors?.['minlength']">Temporary Password too short..</span>
+        </dd>
+    </div>
+    
+    <div class="mb-3">
+        <label class="form-label" for="Password">New Password</label>
+        <div>
+            <input type="password" placeholder="Enter New password" (blur)="onBlurNewPwds(newPassword.value)" ngModel required minlength="6" #newPassword="ngModel" class="form-control" name="newPassword">
+        </div>
+        <dd class="text-danger" *ngIf="(newPassword.invalid && frmRegister.submitted)||(newPassword.touched && newPassword.invalid)">
+            <span *ngIf="newPassword.errors?.['required']">New Password Required</span>
+            <span *ngIf="newPassword.errors?.['minlength']">New Password should be minimum 7 chars long..</span>
+        </dd>
+    </div>
+    <span class="text-danger">{{NewAndConfirmPwdMatchStatus}}</span>
+    <div class="mb-3">
+        <label class="form-label" for="Password">confirm New Password</label>
+        <div>
+            <input type="password" placeholder="Enter confirm password" (blur)="onBlurConfirmPwds(confirmNewPassword.value)" required minlength="6" ngModel #confirmNewPassword="ngModel" class="form-control" name="confirmNewPassword">
+            <dd class="text-danger" *ngIf="(confirmNewPassword.invalid && frmRegister.submitted)||(confirmNewPassword.touched && confirmNewPassword.invalid)">
+                <span *ngIf="confirmNewPassword.errors?.['required']">confirm New Password Required</span>
+                <span *ngIf="confirmNewPassword.errors?.['minlength']">confirm Password should be minimum 7 chars long..</span>
+            </dd>
+        </div>
+    </div>
+    
+    <div>
+        <button [disabled]="frmRegister.invalid" class="btn btn-outline-primary btn-sm w-100">Unlock</button>
+    </div>
+
+    <dt>email</dt>
+    <dd>{{frmRegister.value.email}}</dd>
+    <dt>tmp password</dt>
+    <dd>{{frmRegister.value.tmpPassword}}</dd>
+    <dt>new password</dt>
+    <dd>{{frmRegister.value.newPassword}}</dd>
+    <dt>confirm New Password</dt>
+    <dd>{{frmRegister.value.confirmNewPassword}}</dd>
+    <dt>After button event click email</dt>
+    <dd>{{accActive.email}}</dd>
+    <dt>tmp password</dt>
+    <dd>{{accActive.tmpPassword}}</dd>
+    <dt>new password</dt>
+    <dd>{{accActive.newPassword}}</dd>
+    <dt>confirm New Password</dt>
+    <dd>{{accActive.confirmNewPassword}}</dd>
+</form>

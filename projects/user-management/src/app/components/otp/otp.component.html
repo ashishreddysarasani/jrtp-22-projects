@@ -1,0 +1,36 @@
+<form class="" (submit)="GenerateOTP(frmRegister.value)" #frmRegister="ngForm">
+    <h1>OTP Generated</h1>
+    <div class="mb-3">
+        <label for="otp" class="form-label"><b>Enter Your OTP</b></label>
+        <div>
+            <input type="text" disabled="true" required minlength="4" #otp="ngModel" ngModel class="form-control" name="otp">
+        </div>
+        <dd class="text-danger" *ngIf="(otp.invalid && frmRegister.submitted)||(otp.touched && otp.invalid)">
+            <span *ngIf="otp.errors?.['required']">otp Required</span>
+            <span *ngIf="otp.errors?.['minlength']">otp too short..</span>
+        </dd>
+    </div>
+    
+    <div class="mb-3">
+        <button [disabled]="frmRegister.invalid" class="btn btn-warning w-100">verify OTP</button>
+    </div>
+    <div class="mb-3">
+        <p>Your OTP sent to registered email</p>
+        <p>OTP expires in 1 minute</p>
+    </div>
+    <div>
+        <details>
+            <summary><a href="#">Need Help ?</a></summary>
+            <ul>
+                <li><a href="https://classroom.google.com/c/NDk2ODk0MzE3Njcy/m/NDk3MDIwNjE1MzAy/details">Change Password</a></li>
+                <li><a href="#">Forgot Password</a></li>
+            </ul>
+        </details>
+    </div>
+    <dt>otp</dt>
+    <dd>{{frmRegister.value.otp}}</dd>
+    <dt>after click otp</dt>
+    <dd>{{myotp.otp}}</dd>
+</form>
+
+

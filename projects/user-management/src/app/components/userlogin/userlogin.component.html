@@ -1,0 +1,66 @@
+<form class="" (submit)="LoginClick(frmRegister.value)" #frmRegister="ngForm">
+    <h1>Signin</h1>
+    <div class="mb-3">
+        <label for="Email" class="form-label"><b>Email or mobile number</b></label>
+        <div>
+            <input type="email" placeholder="Enter Your Email" (blur)="VerifyEmail(email.value)" ngModel required minlength="4" #email="ngModel" class="form-control" name="email">
+            <div class="container-fluid">
+                <div *ngIf="isemailexistInDB || isEmailSyntaxIsValid; then emailthenBlock else emailelseBlock"></div>
+                <ng-template #emailthenBlock>
+                    <span class="text-danger">{{emailExistStatus}}</span>
+                </ng-template>
+                <ng-template #emailelseBlock>
+                    <span class="text-danger">{{emailExistStatus}}</span>
+                </ng-template>
+            </div>
+        </div>
+    </div>
+    <dd class="text-danger" *ngIf="(email.invalid && frmRegister.submitted)||(email.touched && email.invalid)">
+        <span *ngIf="email.errors?.['required']">Email Required</span>
+        <span *ngIf="email.errors?.['minlength']">Name too short..</span>
+    </dd>
+    <div class="mb-3">
+        <label class="form-label" for="Password">Password</label>
+        <div>
+            <input type="password" placeholder="Enter Your Password" (blur)="VerifyPassword(password.value)" required minlength="4" #password="ngModel" ngModel class="form-control" name="password">
+            <div class="container-fluid">
+                <div *ngIf="isPwdSyntaxIsValid || isEmailSyntaxIsValid; then passwordthenBlock else passwordelseBlock"></div>
+                <ng-template #passwordthenBlock>
+                    <span class="text-danger">{{PWDStatusMsg}}</span>
+                </ng-template>
+                <ng-template #passwordelseBlock>
+                    <span class="text-danger">{{PWDStatusMsg}}</span>
+                </ng-template>
+            </div>
+        </div>
+    </div>
+    <dd class="text-danger" *ngIf="(password.invalid && frmRegister.submitted)||(password.touched && password.invalid)">
+        <span *ngIf="password.errors?.['required']">Password Required</span>
+        <span *ngIf="password.errors?.['minlength']">Password too short..</span>
+    </dd>
+    <div class="mb-3">
+        <button [disabled]="frmRegister.invalid" class="btn btn-warning w-100">Continue</button>
+    </div>
+    <div class="mb-3">
+        <p>By continuing, you agree to Amazon's Conditions of Use and Privacy Notice.</p>
+    </div>
+    <div>
+        <details>
+            <summary><a href="#">Need Help ?</a></summary>
+            <ul>
+                <li><a href="https://classroom.google.com/c/NDk2ODk0MzE3Njcy/m/NDk3MDIwNjE1MzAy/details">Change Password</a></li>
+                <li><a href="#">Forgot Password</a></li>
+            </ul>
+        </details>
+    </div>
+
+    <dt>email</dt>
+    <dd>{{frmRegister.value.email}}</dd>
+    <dt>password</dt>
+    <dd>{{frmRegister.value.password}}</dd>
+    <dt>email</dt>
+    <dd>{{login.email}}</dd>
+    <dt>password</dt>
+    <dd>{{login.password}}</dd>
+
+</form>

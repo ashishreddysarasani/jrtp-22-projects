@@ -1,0 +1,145 @@
+<form class="" (submit)="RegisterClick(frmRegister.value)" #frmRegister="ngForm">
+    <h2> <span class="bi bi-person-fill"></span> Register User</h2>
+    <div class="mb-3">
+        <label class="form-label" for="FistrName">First Name</label>
+        <div>
+            <input type="text" placeholder="Enter FirstName" (blur)="onFirstNameBlur(firstName.value)" ngModel required minlength="1" #firstName="ngModel" class="form-control" name="firstName">     
+            <div class="container-fluid">
+                <div *ngIf="isFirstNameSyntaxIsValid; then firstNamethenBlock else firstNameelseBlock"></div>
+                <ng-template #firstNamethenBlock>
+                    <span class="text-danger">{{firNameErrorMsg}}</span>
+                </ng-template>
+                <ng-template #firstNameelseBlock>
+                    <span class="text-danger">{{firNameErrorMsg}}</span>
+                </ng-template>
+            </div>
+        </div>
+    </div>
+    <dd class="text-danger" *ngIf="(firstName.invalid && frmRegister.submitted)||(firstName.touched && firstName.invalid)">
+        <span *ngIf="firstName.errors?.['required']">First Name Required</span>
+        <span *ngIf="firstName.errors?.['minlength']">FirstName too short..</span>
+    </dd>
+    <div class="mb-3">
+        <label class="form-label" for="LastName">Last Name</label>
+        <div>
+            <input type="text" placeholder="Enter lastName" (blur)="lastnameblur(lastName.value)" ngModel required minlength="1" #lastName="ngModel" class="form-control" name="lastName">
+            <div class="container-fluid">
+                <div *ngIf="isLastNameValid; then lastNamethenBlock else lastNameelseBlock"></div>
+                <ng-template #lastNamethenBlock>
+                    <span class="text-success">{{lastNameErrorMsg}}</span>
+                </ng-template>
+                <ng-template #lastNameelseBlock>
+                    <span class="text-danger">{{lastNameErrorMsg}}</span>
+                </ng-template>
+            </div>
+        </div>
+    </div>
+    <dd class="text-danger" *ngIf="(lastName.invalid && frmRegister.submitted)||(lastName.touched && lastName.invalid)">
+        <span *ngIf="lastName.errors?.['required']">Last Name Required</span>
+        <span *ngIf="lastName.errors?.['minlength']">LastName too short..</span>
+    </dd>
+    <div class="mb-3">
+        <label class="form-label" for="Email">Email</label>
+        <div>
+            <input type="email" placeholder="Enter Email" (blur)="onEmailBlur(email.value)" minlength="4" #email="ngModel" ngModel class="form-control" name="email">
+            <div class="container-fluid">
+                <div *ngIf="isemailexist || isEmailSyntaxIsValid; then emailthenBlock else emailelseBlock"></div>
+                <ng-template #emailthenBlock>
+                    <span class="text-danger">{{emailExistStatus}}</span>
+                </ng-template>
+                <ng-template #emailelseBlock>
+                    <span class="text-danger">{{emailExistStatus}}</span>
+                </ng-template>
+            </div>
+        </div>
+    </div>
+    <dd class="text-danger" *ngIf="(email.invalid && frmRegister.submitted)||(email.touched && email.invalid)">
+        <span *ngIf="email.errors?.['required']">Email Required</span>
+        <span *ngIf="email.errors?.['minlength']">Email too short..</span>
+    </dd>
+    <div class="mb-3">
+        <label class="form-label" for="Phone Number">Phone Number</label>
+        <div>
+            <input type="text" placeholder="Enter your Phone Number" class="form-control" pattern="\+91\d{10}" required ngModel #phno="ngModel" name="phno">
+        </div>
+    </div>
+    <dd class="text-danger" *ngIf="(phno.touched && phno.invalid)||(phno.invalid && frmRegister.submitted)">
+        <span *ngIf="phno.errors?.['required']">Mobile Required</span>
+        <span *ngIf="phno.errors?.['pattern']">Invalid Mobile</span>
+    </dd>
+    <div class="mb-3">
+        <label class="form-label" for="Date">Date</label>
+        <div>
+            <input type="date"  ngModel required class="form-control" #dob="ngModel" name="dob">
+        </div>
+        <dd class="text-danger" *ngIf="(dob.invalid && frmRegister.submitted)||(dob.touched && dob.invalid)">
+            <span *ngIf="dob.errors?.['required']">Date Required</span>
+            <span *ngIf="dob.errors?.['minlength']">Name too short..</span>
+        </dd>
+    </div>
+    <div class="mb-3">
+        <label class="form-label" for="Subscribe">Gender</label>
+        <div class="form-check">
+            <input type="radio" class="form-check-input" value="Male" ngModel #gender="ngModel" checked name="gender"> <label class="form-check-label">Male</label>
+        </div>
+        <div class="form-check">
+            <input type="radio" class="form-check-input" ngModel #gender="ngModel" value="FeMale" name="gender"> <label class="form-check-label">Female</label>
+        </div>
+        <dd class="text-danger" *ngIf="(gender.invalid && frmRegister.submitted)||(gender.touched && gender.invalid) || (gender.value=='' && frmRegister.submitted) ">
+            <span >gender Required</span>
+            <span *ngIf="gender.errors?.['required']">gender Required</span>
+            <span *ngIf="gender.errors?.['minlength']">Name too short..</span>
+        </dd>
+    </div>
+    <div class="mb-3">
+        <label class="form-label" for="Country">Your Country</label>
+        <div>
+            <select (change)="VerifyCountry($event)" class="form-select" name="country">
+                <option value="-1">please select country</option>
+                
+                <option [value]="country.cid" *ngFor="let country of country">{{country.cname}}</option>
+                
+                <option value="1">india</option>
+            </select>
+        </div>
+        <dd class="text-danger" *ngIf="isCountryInValid">
+            Please Select Your Country
+        </dd>
+    </div>
+    <div class="mb-3">
+        <label class="form-label" for="State">Your State</label>
+        <div>
+            <select (change)="verifyState($event)" class="form-select" name="state">
+                <option value="-1">Please select a state</option>
+                <option [value]="s.sid" *ngFor="let s of state">{{s.sname}}</option>
+               
+                <option value="1">california</option>
+                <option value="2">tg</option>
+            </select>
+        </div>
+        <dd class="text-danger" *ngIf="isStateInValid">
+            Please Select Your State
+        </dd>
+    </div>
+    <div class="mb-3">
+        <label class="form-label" for="City">Your City</label>
+        <div>
+            <select (change)="VerifyCity($event)" class="form-select" name="city">
+                <option value="-1">Please select a city</option>
+                <option [value]="city.ctyid" *ngFor="let city of city">{{city.cname}}</option>
+                <option value="1">Delhi</option>
+                <option value="2">texas</option>
+            </select>
+        </div>
+        <dd class="text-danger" *ngIf="isCityInValid">
+            Please Select Your City
+        </dd>
+    </div>
+    <div class="mb-3">
+        <button [disabled]="frmRegister.invalid" class="btn btn-outline-primary btn-sm w-100">Register</button>
+    </div>
+    <div>
+        <button [disabled]="frmRegister.pristine" class="btn btn-outline-primary btn-sm w-100">Reset</button>
+    </div>
+</form>
+
